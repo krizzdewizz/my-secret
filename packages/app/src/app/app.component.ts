@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     // todo
   }
 
-  async onFileChange(e: any) {
+  async onFileChange(e: { target: { files: File[] } } | any) {
     const [file]: File[] = e.target.files;
     const text = await file.text();
     this.handleResult(this.secretService.uploadedData(text), () =>

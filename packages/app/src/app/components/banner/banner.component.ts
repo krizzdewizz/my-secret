@@ -21,10 +21,10 @@ const toHtml = (text: string) => {
 }
 
 @Component({
-  selector: 'rce-banner-rce',
-  templateUrl: './banner-rce.component.html',
-  styleUrls: ['./banner-rce.component.scss']
+  selector: 'my-secret-banner',
+  templateUrl: './banner.component.html',
+  styleUrls: ['./banner.component.scss']
 })
-export class BannerRceComponent {
+export class BannerComponent {
   readonly title = toHtml(TITLE)
 }
