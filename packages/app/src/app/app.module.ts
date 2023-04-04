@@ -8,6 +8,8 @@ import { UploadIconComponent } from './components/upload-icon/upload-icon.compon
 import { DownloadIconComponent } from './components/download-icon/download-icon.component';
 import { SecretComponent } from './components/secret/secret.component';
 import { EyeIconComponent } from './components/eye-icon/eye-icon.component';
+import { TrashIconComponent } from './components/trash-icon/trash-icon.component';
+import { PlusIconComponent } from './components/plus-icon/plus-icon.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { EyeIconComponent } from './components/eye-icon/eye-icon.component';
     DownloadIconComponent,
     SecretComponent,
     EyeIconComponent,
+    TrashIconComponent,
+    PlusIconComponent,
   ],
   imports: [
     BrowserModule,

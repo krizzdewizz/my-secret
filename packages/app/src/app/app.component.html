@@ -53,8 +53,15 @@
   </div>
 
   <div class="open" *ngSwitchCase="'open'">
-
-    <input class="search" [(ngModel)]="searchTerm" type="search" placeholder="Search...">
+    <div class="toolbar">
+      <input
+        class="search"
+        [(ngModel)]="searchTerm"
+        type="search"
+        placeholder="Search..."
+      />
+      <button title="Add" class="icon"><my-secret-plus-icon></my-secret-plus-icon></button>
+    </div>
 
     <div class="secret-container">
       <ng-container *ngFor="let secret of filteredSecrets">
