@@ -6,34 +6,24 @@
   "targets": {
     "build": {
       "executor": "@nrwl/esbuild:esbuild",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/my-secret",
         "main": "packages/my-secret/src/index.ts",
         "tsConfig": "packages/my-secret/tsconfig.lib.json",
-        "assets": [
-          "packages/my-secret/*.md"
-        ]
+        "assets": ["packages/my-secret/*.md"]
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/my-secret/**/*.ts"
-        ]
+        "lintFilePatterns": ["packages/my-secret/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/my-secret/jest.config.ts",
         "passWithNoTests": true

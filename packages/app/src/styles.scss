@@ -1,5 +1,5 @@
-@import "variables";
-@import "globals";
+@import 'variables';
+@import 'globals';
 
 @font-face {
   font-family: pfdinmono;
@@ -16,7 +16,8 @@ button {
   }
 }
 
-button, input {
+button,
+input {
   text-transform: uppercase;
   letter-spacing: 5px;
 }

@@ -1,24 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import {
-  AppState,
-  AppStateInitial,
-  AppStateOpen,
-  SecretService,
-} from "./secret.service";
-import { Result, Secret } from "@my-secret/my-secret";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AppState, AppStateInitial, AppStateOpen, SecretService } from './secret.service';
+import { Result, Secret } from '@my-secret/my-secret';
 
 type SecretView = Secret & { visible: boolean; stars: string };
 
 @Component({
-  selector: "my-secret-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: 'my-secret-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
   get searchTerm(): string {
@@ -30,17 +19,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.updateFilteredSecrets();
   }
 
-  @ViewChild("passwordEl") passwordEl!: ElementRef;
+  @ViewChild('passwordEl') passwordEl!: ElementRef;
 
-  password = "a";
-  error = "";
+  password = 'a';
+  error = '';
 
   secrets: SecretView[] = [];
   filteredSecrets: SecretView[] = [];
-  private _searchTerm = "";
+  private _searchTerm = '';
 
   get initialTitle(): string {
-    return this.initialPassword ? "Set password" : "No secret stored yet";
+    return this.initialPassword ? 'Set password' : 'No secret stored yet';
   }
 
   get initialPassword(): boolean {
@@ -63,7 +52,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.state.state === "secretsPresent") {
+    if (this.state.state === 'secretsPresent') {
       this.focusPassword();
     }
   }
@@ -91,10 +80,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private handleResult(result: Result<unknown>, onOk?: () => void) {
-    if (result.outcome === "error") {
+    if (result.outcome === 'error') {
       this.error = result.error;
     } else {
-      this.error = "";
+      this.error = '';
       onOk?.();
     }
   }
@@ -109,10 +98,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   unlock() {
     this.handleResult(this.secretService.unlock(this.password), () => {
       this.secrets = (this.state as AppStateOpen).secret.secrets.map(
-        (secret) => ({
+        secret => ({
           ...secret,
           visible: false,
-          stars: "***",
+          stars: '***'
         })
       );
 
@@ -122,8 +111,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private updateFilteredSecrets() {
     const searchLower = this._searchTerm.toLowerCase();
-    this.filteredSecrets = this.secrets.filter((s) =>
-      [s.name, s.user, s.info0, s.info0].some((s) => s.includes(searchLower))
+    this.filteredSecrets = this.secrets.filter(s =>
+      [s.name, s.user, s.info0, s.info0].some(s => s.includes(searchLower))
     );
   }
 }

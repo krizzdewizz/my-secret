@@ -4,5 +4,4 @@ import { Component } from '@angular/core';
   selector: 'my-secret-upload-icon',
   templateUrl: './upload-icon.component.html'
 })
-export class UploadIconComponent {
-}
+export class UploadIconComponent {}

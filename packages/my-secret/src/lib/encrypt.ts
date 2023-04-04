@@ -1,17 +1,17 @@
 import { create_sjcl } from './sjcl/sjcl';
-import {error, ok, Result} from "./core/core";
+import { error, ok, Result } from './core/core';
 
 type Encryptor = {
   encrypt: (password: string, data: string) => string;
   decrypt: (password: string, data: string) => string;
-}
+};
 
 // sjcl structure
 type Encrypted = {
   iv: string;
   salt: string;
   ct: string;
-}
+};
 
 const IMPL = (() => {
   const impl = create_sjcl() as unknown as Encryptor;
@@ -34,11 +34,7 @@ export const encrypt = (password: string, data: string): Result<string> => {
   }
 
   const json: Encrypted = JSON.parse(_encrypt(IMPL, password, data));
-  const joined = [
-    json.iv,
-    json.salt,
-    json.ct,
-  ].join(':');
+  const joined = [json.iv, json.salt, json.ct].join(':');
 
   return ok(joined);
 };
@@ -46,7 +42,10 @@ export const encrypt = (password: string, data: string): Result<string> => {
 /**
  * @return undefined if failed
  */
-export const decrypt = (password: string, data: string | undefined): Result<string> => {
+export const decrypt = (
+  password: string,
+  data: string | undefined
+): Result<string> => {
   if (!data) {
     return error('error while decrypting');
   }
@@ -64,8 +63,16 @@ export const decrypt = (password: string, data: string | undefined): Result<stri
   }
 };
 
-const _encrypt = (encryptor: Encryptor, password: string, data: string): string => encryptor.encrypt(password, data);
-const _decrypt = (encryptor: Encryptor, password: string, data: string): string | undefined => {
+const _encrypt = (
+  encryptor: Encryptor,
+  password: string,
+  data: string
+): string => encryptor.encrypt(password, data);
+const _decrypt = (
+  encryptor: Encryptor,
+  password: string,
+  data: string
+): string | undefined => {
   try {
     return encryptor.decrypt(password, data);
   } catch (e) {

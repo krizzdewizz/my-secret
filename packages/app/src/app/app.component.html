@@ -60,7 +60,9 @@
         type="search"
         placeholder="Search..."
       />
-      <button title="Add" class="icon"><my-secret-plus-icon></my-secret-plus-icon></button>
+      <button title="Add" class="icon">
+        <my-secret-plus-icon></my-secret-plus-icon>
+      </button>
     </div>
 
     <div class="secret-container">
@@ -71,7 +73,7 @@
           <my-secret-eye-icon
             (click)="secret.visible = !secret.visible"
           ></my-secret-eye-icon>
-          <div>{{ secret.visible ? secret.password : "password" }}</div>
+          <div>{{ secret.visible ? secret.password : 'password' }}</div>
         </div>
         <div class="infos">
           <div>{{ secret.info0 }}</div>

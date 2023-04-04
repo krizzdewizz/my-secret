@@ -4,6 +4,4 @@ import { Component } from '@angular/core';
   selector: 'my-secret-plus-icon',
   templateUrl: './plus-icon.component.html'
 })
-export class PlusIconComponent {
-
-}
+export class PlusIconComponent {}

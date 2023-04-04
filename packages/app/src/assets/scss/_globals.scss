@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   overflow: hidden;
   font-family: pfdinmono;
@@ -12,7 +13,8 @@ button {
 a {
   text-decoration: none !important;
 
-  &:active, &:focus {
+  &:active,
+  &:focus {
     outline: 0;
     border: none;
   }
@@ -27,7 +29,8 @@ svg {
   cursor: pointer;
 }
 
-input:focus, input:active {
+input:focus,
+input:active {
   border-color: $accent;
   outline: $accent;
 }
@@ -43,7 +46,8 @@ input:focus, input:active {
 
   .char {
     position: relative;
-    text-shadow: 0 0 0px red, 0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red;
+    text-shadow: 0 0 0px red, 0 0 10px red, 0 0 20px red, 0 0 30px red,
+      0 0 40px red, 0 0 50px red;
   }
 
   &.banner-subtitle {
@@ -51,5 +55,3 @@ input:focus, input:active {
     opacity: 0.5;
   }
 }
-
-

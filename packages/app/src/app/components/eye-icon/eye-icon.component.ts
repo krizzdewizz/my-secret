@@ -4,6 +4,4 @@ import { Component } from '@angular/core';
   selector: 'my-secret-eye-icon',
   templateUrl: './eye-icon.component.html'
 })
-export class EyeIconComponent {
-
-}
+export class EyeIconComponent {}
