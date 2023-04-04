@@ -1,0 +1,22 @@
+@import "variables";
+@import "globals";
+
+@font-face {
+  font-family: pfdinmono;
+  src: url(./assets/fonts/FontsFree-Net-PF-Din-Mono-W01-Medium.ttf);
+}
+
+button {
+  padding: 10px;
+  border-radius: 0;
+  background-color: inherit;
+
+  &.disabled {
+    opacity: 0.5;
+  }
+}
+
+button, input {
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}

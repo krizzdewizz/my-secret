@@ -1,0 +1,91 @@
+<rce-banner-rce></rce-banner-rce>
+
+<div class="state-container" [ngSwitch]="state.state">
+  <div class="initial" *ngSwitchCase="'initial'">
+    <span>{{ initialTitle }}</span>
+
+    <div *ngIf="initialPassword; else newOrUpload" class="password">
+      <div class="input-container">
+        <input
+          (keydown.enter)="open()"
+          #passwordEl
+          [(ngModel)]="password"
+          type="password"
+          autocomplete="off"
+        />
+      </div>
+
+      <button (click)="save()" [disabled]="!password">Save</button>
+    </div>
+
+    <ng-template #newOrUpload>
+      <button (click)="createNew()">Create New</button>
+      <button
+        title="Upload"
+        (click)="fileInput.click()"
+        class="icon upload-file"
+      >
+        Upload
+        <input
+          #fileInput
+          type="file"
+          hidden=""
+          (change)="onFileChange($event)"
+        />
+      </button>
+    </ng-template>
+  </div>
+
+  <div class="initial" *ngSwitchCase="'secretsPresent'">
+    <span>Enter password to unlock secret</span>
+    <div class="password">
+      <div class="input-container">
+        <input
+          (keydown.enter)="unlock()"
+          #passwordEl
+          [(ngModel)]="password"
+          type="password"
+          autocomplete="off"
+        />
+      </div>
+      <button (click)="unlock()" [disabled]="!password">Unlock</button>
+    </div>
+  </div>
+
+  <div class="open" *ngSwitchCase="'open'">
+
+    <input class="search" [(ngModel)]="searchTerm" type="search" placeholder="Search...">
+
+    <div class="secret-container">
+      <ng-container *ngFor="let secret of filteredSecrets">
+        <div>{{ secret.name }}</div>
+        <div>{{ secret.user }}</div>
+        <div class="secret-password">
+          <my-secret-eye-icon
+            (click)="secret.visible = !secret.visible"
+          ></my-secret-eye-icon>
+          <div>{{ secret.visible ? secret.password : "password" }}</div>
+        </div>
+        <div class="infos">
+          <div>{{ secret.info0 }}</div>
+          <div>{{ secret.info1 }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <!--    <my-secret-secret  [secret]="secret" ></my-secret-secret>-->
+  </div>
+</div>
+
+<!--    <button [hidden]="!secrets" [class.disabled]="!password" [disabled]="!password" class="open" (click)="open()">Open</button>-->
+
+<!--    <div class="toolbar">-->
+
+<!--        <button [hidden]="!secrets" [disabled]="!secrets" title="Download" (click)="download()" class="icon upload-file">-->
+
+<!--        </button>-->
+<!--    </div>-->
+
+<div class="error">{{ error }}</div>
+
+<!--<pre>{{ state | json }}</pre>-->
+<!--<pre>{{ initialPassword }}</pre>-->

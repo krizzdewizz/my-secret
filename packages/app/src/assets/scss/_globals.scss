@@ -1,0 +1,55 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: pfdinmono;
+  background-color: #121212;
+}
+
+button {
+  font-family: pfdinmono;
+}
+
+a {
+  text-decoration: none !important;
+
+  &:active, &:focus {
+    outline: 0;
+    border: none;
+  }
+}
+
+h4 {
+  font-size: $font-size-m !important;
+}
+
+svg {
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+input:focus, input:active {
+  border-color: $accent;
+  outline: $accent;
+}
+
+.banner {
+  color: blueviolet;
+  white-space: nowrap;
+
+  .line {
+    position: relative;
+    margin-top: -3px;
+  }
+
+  .char {
+    position: relative;
+    text-shadow: 0 0 0px red, 0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red, 0 0 50px red;
+  }
+
+  &.banner-subtitle {
+    transform: scale(0.4);
+    opacity: 0.5;
+  }
+}
+
+
