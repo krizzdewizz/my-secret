@@ -63,28 +63,29 @@
       <button title="Add" class="icon">
         <my-secret-plus-icon></my-secret-plus-icon>
       </button>
+      <button (click)='saveSecrets()' [class.changed]="changed" title="Save" class="icon">
+        <my-secret-save-icon></my-secret-save-icon>
+      </button>
     </div>
 
     <div class="secret-container">
       <ng-container *ngFor="let secret of filteredSecrets">
-        <div>{{ secret.name }}</div>
-        <div>{{ secret.user }}</div>
+        <input type='text' placeholder='Name' [(ngModel)]='secret.name' (ngModelChange)='onChanged()'>
+        <input type='text' placeholder='User' [(ngModel)]='secret.user' (ngModelChange)='onChanged()'>
         <div class="secret-password">
           <my-secret-eye-icon
             (click)="secret.visible = !secret.visible"
           ></my-secret-eye-icon>
-          <div>{{ secret.visible ? secret.password : 'password' }}</div>
+          <input placeholder='Password' [type]=" secret.visible ? 'text' : 'password' " [(ngModel)]='secret.password' (ngModelChange)='onChanged()'>
         </div>
         <div class="infos">
-          <div>{{ secret.info0 }}</div>
-          <div>{{ secret.info1 }}</div>
+          <input type='text' placeholder='Info 0' [(ngModel)]='secret.info0' (ngModelChange)='onChanged()'>
+          <input type='text' placeholder='Info 1' [(ngModel)]='secret.info1' (ngModelChange)='onChanged()'>
         </div>
       </ng-container>
     </div>
-    <!--    <my-secret-secret  [secret]="secret" ></my-secret-secret>-->
   </div>
 </div>
-
 <!--    <button [hidden]="!secrets" [class.disabled]="!password" [disabled]="!password" class="open" (click)="open()">Open</button>-->
 
 <!--    <div class="toolbar">-->

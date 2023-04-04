@@ -26,6 +26,7 @@
   }
 
   input {
+    display: block;
     border: none;
     font-size: 40px;
     background-color: black;
@@ -38,6 +39,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-bottom: 40px;
 }
 
 .error {
@@ -81,11 +83,24 @@ my-secret-banner {
   row-gap: 10px;
   column-gap: 30px;
 
+  input {
+    font-family: pfdinmono;
+    border: none;
+    font-size: 22px;
+    padding: 5px;
+
+    &:not(:focus) {
+      background-color: inherit;
+    }
+  }
+
   & .infos {
     grid-column: 1 / span 3;
     font-size: 14px;
     padding-bottom: 10px;
     border-bottom: 1px solid white;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -100,4 +115,8 @@ my-secret-banner {
 
 .icon {
   border: none;
+}
+
+.changed {
+  color: red;
 }

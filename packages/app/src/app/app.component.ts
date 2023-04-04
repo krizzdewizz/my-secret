@@ -1,5 +1,16 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AppState, AppStateInitial, AppStateOpen, SecretService } from './secret.service';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  AppState,
+  AppStateInitial,
+  AppStateOpen,
+  SecretService
+} from './secret.service';
 import { Result, Secret } from '@my-secret/my-secret';
 
 type SecretView = Secret & { visible: boolean; stars: string };
@@ -27,6 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   secrets: SecretView[] = [];
   filteredSecrets: SecretView[] = [];
   private _searchTerm = '';
+  changed = false;
 
   get initialTitle(): string {
     return this.initialPassword ? 'Set password' : 'No secret stored yet';
@@ -114,5 +126,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.filteredSecrets = this.secrets.filter(s =>
       [s.name, s.user, s.info0, s.info0].some(s => s.includes(searchLower))
     );
+  }
+
+  onChanged() {
+    this.changed = true;
+  }
+
+  saveSecrets() {
+    this.changed = false;
   }
 }
