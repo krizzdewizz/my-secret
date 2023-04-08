@@ -60,7 +60,7 @@ my-secret-banner {
 
 .title-area {
   position: fixed;
-  //background-color: $dark-bg;
+  background-color: $dark-bg;
   width: 100%;
   top: 0;
   z-index: 11;
@@ -126,7 +126,7 @@ my-secret-banner {
 
 .changed {
   opacity: initial;
-  color: red;
+  color: $alert-h;
 }
 
 .search {

@@ -174,7 +174,7 @@ export class SecretService {
     }
 
     const data = JSON.stringify(this.state.secret, undefined, 2);
-    this.doDownload(data, "my-secrets.json");
+    this.doDownload(data, "json");
     return ok(undefined);
   }
 
@@ -183,7 +183,7 @@ export class SecretService {
     if (!secrets) {
       return error("invalid state. No secrets found in local storage");
     }
-    this.doDownload(secrets, "my-secrets");
+    this.doDownload(secrets, "txt");
     return ok(undefined);
   }
 
@@ -257,12 +257,12 @@ export class SecretService {
     }
   }
 
-  private doDownload(data: string, file: string) {
+  private doDownload(data: string, ext: string) {
     const downloadUrl = URL.createObjectURL(new Blob([data]));
 
     const el = document.createElement("a");
     el.setAttribute("href", downloadUrl);
-    el.setAttribute("download", file);
+    el.setAttribute("download", `my-secret.${ext}`);
     el.click();
     URL.revokeObjectURL(downloadUrl);
   }
