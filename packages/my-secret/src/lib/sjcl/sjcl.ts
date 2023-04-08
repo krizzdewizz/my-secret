@@ -1417,7 +1417,7 @@ export const create_sjcl = () => {
     d[c] = d[c] || sjcl.misc.pbkdf2(a, c, b.iter);
     return { key: d[c].slice(0), salt: c.slice(0) };
   };
-  'undefined' !== typeof module && module.exports && (module.exports = sjcl);
+  // 'undefined' !== typeof module && module.exports && (module.exports = sjcl);
   'function' === typeof define &&
     define([], function () {
       return sjcl;

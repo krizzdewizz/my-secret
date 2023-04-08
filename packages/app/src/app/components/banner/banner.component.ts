@@ -5,7 +5,7 @@ const TITLE = `
  |  |  |   \\_/        |______ |______ |       |_____/ |______    |   
  |  |  |    |         ______| |______ |_____  |    \\_ |______    |   
 `;
-const toHtml = (text: string) => {
+const toHtml = (text: string):string => {
   return text
     .split('\n')
     .filter(it => !!it)
@@ -18,6 +18,13 @@ const toHtml = (text: string) => {
     .join('\n');
 };
 
+const toLines = (text: string): string[][] => {
+  return text
+    .split('\n')
+    .filter(it => !!it)
+    .map(line => Array.from(line))
+};
+
 @Component({
   selector: 'my-secret-banner',
   templateUrl: './banner.component.html',
@@ -25,4 +32,5 @@ const toHtml = (text: string) => {
 })
 export class BannerComponent {
   readonly title = toHtml(TITLE);
+  readonly lines = toLines(TITLE)
 }

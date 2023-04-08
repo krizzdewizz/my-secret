@@ -10,6 +10,7 @@ import { EyeIconComponent } from './components/eye-icon/eye-icon.component';
 import { TrashIconComponent } from './components/trash-icon/trash-icon.component';
 import { PlusIconComponent } from './components/plus-icon/plus-icon.component';
 import { SaveIconComponent } from './components/save-icon/save-icon.component';
+import { ExportIconComponent } from './components/export-icon/export-icon.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SaveIconComponent } from './components/save-icon/save-icon.component';
     EyeIconComponent,
     TrashIconComponent,
     PlusIconComponent,
-    SaveIconComponent
+    SaveIconComponent,
+    ExportIconComponent
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],

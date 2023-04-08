@@ -18,6 +18,12 @@ button {
 
 button,
 input {
-  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: pfdinmono;
+}
+
+button {
   letter-spacing: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
 }

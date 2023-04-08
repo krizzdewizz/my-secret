@@ -1,0 +1,9 @@
+@mixin rce-glow {
+  color: blueviolet;
+  text-shadow: 0 0 0px red, 0 0 10px red, 0 0 20px red, 0 0 30px red,
+    0 0 40px red, 0 0 50px red;
+}
+
+.rce-glow {
+  @include rce-glow
+}

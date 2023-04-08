@@ -1,1 +1,8 @@
-<div class="banner banner1" [innerHTML]="title"></div>
+<!--<div class="banner banner1" [innerHTML]="title"></div>-->
+<div class="banner banner1">
+  <div class="line" *ngFor="let line of lines">
+    <span class="char rce-glow" *ngFor="let c of line">
+      {{ c === ' ' ? '&nbsp;' : c }}
+    </span>
+  </div>
+</div>
