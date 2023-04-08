@@ -5,8 +5,8 @@
   "main": "packages/my-secret/src/cli/cli.ts",
   "scripts": {
     "serve": "nx serve --project=app",
-    "build": "nx run-many --target=build",
-    "build:all": "npm run format && npm run test && npm run lint && npm run build",
+    "build:all": "nx run-many --target=build",
+    "build": "npm run format && npm run test && npm run lint && npm run build",
     "lint": "nx run-many --target=lint",
     "format": "prettier packages/** --write",
     "test": "rimraf coverage && nx run-many --target=test --codeCoverage"
