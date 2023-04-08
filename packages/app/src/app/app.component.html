@@ -1,47 +1,47 @@
 <div class="title-area">
   <my-secret-banner></my-secret-banner>
-  <div class="toolbar" *ngIf="state.state === 'open'">
+  <div *ngIf="state.state === 'open'" class="toolbar">
     <input
-      class="search"
       [(ngModel)]="searchTerm"
-      type="search"
+      class="search"
       placeholder="Search..."
+      type="search"
     />
-    <button (click)="addSecret()" title="Add" class="icon">
+    <button (click)="addSecret()" class="icon" title="Add">
       <my-secret-plus-icon></my-secret-plus-icon>
     </button>
     <button
       (click)="saveSecrets()"
       [class.changed]="changed"
-      title="Save"
       class="icon"
+      title="Save"
     >
       <my-secret-save-icon></my-secret-save-icon>
     </button>
-    <button (click)="downloadSecrets()" title="Download" class="icon">
+    <button (click)="downloadSecrets()" class="icon" title="Download">
       <my-secret-download-icon></my-secret-download-icon>
     </button>
-    <button (click)="exportSecrets()" title="Export" class="icon">
+    <button (click)="exportSecrets()" class="icon" title="Export">
       <my-secret-export-icon></my-secret-export-icon>
     </button>
-    <button (click)="reset()" title="Delete whole Secret" class="icon">
+    <button (click)="reset()" class="icon" title="Delete whole Secret">
       <my-secret-trash-icon></my-secret-trash-icon>
     </button>
   </div>
 </div>
 
-<div class="state-container" [ngSwitch]="state.state">
-  <div class="initial" *ngSwitchCase="'initial'">
+<div [ngSwitch]="state.state" class="state-container">
+  <div *ngSwitchCase="'initial'" class="initial">
     <span class="initial-title">{{ initialTitle }}</span>
 
     <div *ngIf="initialPassword; else newOrUpload" class="password">
       <div class="input-container">
         <input
-          (keydown.enter)="open()"
           #passwordEl
+          (keydown.enter)="createSecret()"
           [(ngModel)]="password"
-          type="password"
           autocomplete="off"
+          type="password"
         />
       </div>
 
@@ -52,23 +52,23 @@
       <div class="new-or-upload">
         <input
           #fileInput
-          type="file"
-          hidden=""
           (change)="onFileChange($event)"
+          hidden=""
+          type="file"
         />
 
         <button (click)="createNew()">Create New</button>
         <button
-          title="Upload"
           (click)="uploadAction = 'upload'; fileInput.click()"
           class="upload-file"
+          title="Upload"
         >
           Upload
         </button>
         <button
-          title="Import"
           (click)="uploadAction = 'import'; fileInput.click()"
           class="upload-file"
+          title="Import"
         >
           Import
         </button>
@@ -76,75 +76,75 @@
     </ng-template>
   </div>
 
-  <div class="initial" *ngSwitchCase="'secretsPresent'">
+  <div *ngSwitchCase="'secretsPresent'" class="initial">
     <span>Enter password to unlock secret</span>
     <div class="password">
       <div class="input-container">
         <input
-          (keydown.enter)="unlock()"
           #passwordEl
+          (keydown.enter)="unlock()"
           [(ngModel)]="password"
-          type="password"
           autocomplete="off"
+          type="password"
         />
       </div>
       <button (click)="unlock()" [disabled]="!password">Unlock</button>
 
       <div class="reset-icon">
         <my-secret-trash-icon
+          (click)="reset()"
           class="icon"
           title="Delete whole Secret"
-          (click)="reset()"
         ></my-secret-trash-icon>
       </div>
     </div>
   </div>
 
-  <div class="open" *ngSwitchCase="'open'">
+  <div *ngSwitchCase="'open'" class="open">
     <div class="secret-container">
       <ng-container *ngFor="let secret of filteredSecrets">
         <input
-          type="text"
-          placeholder="Name"
-          [(ngModel)]="secret.name"
           (ngModelChange)="onChanged()"
+          [(ngModel)]="secret.name"
+          placeholder="Name"
+          type="text"
         />
         <input
-          type="text"
-          placeholder="User"
-          [(ngModel)]="secret.user"
           (ngModelChange)="onChanged()"
+          [(ngModel)]="secret.user"
+          placeholder="User"
+          type="text"
         />
         <div class="secret-password">
           <my-secret-eye-icon
-            class="icon"
             (click)="secret.visible = !secret.visible"
+            class="icon"
           ></my-secret-eye-icon>
           <input
-            placeholder="Password"
-            [type]="secret.visible ? 'text' : 'password'"
-            [(ngModel)]="secret.password"
             (ngModelChange)="onChanged()"
+            [(ngModel)]="secret.password"
+            [type]="secret.visible ? 'text' : 'password'"
+            placeholder="Password"
           />
         </div>
         <div class="infos">
           <input
-            type="text"
-            placeholder="Info 0"
-            [(ngModel)]="secret.info0"
             (ngModelChange)="onChanged()"
+            [(ngModel)]="secret.info0"
+            placeholder="Info 0"
+            type="text"
           />
           <input
-            type="text"
-            placeholder="Info 1"
-            [(ngModel)]="secret.info1"
             (ngModelChange)="onChanged()"
+            [(ngModel)]="secret.info1"
+            placeholder="Info 1"
+            type="text"
           />
         </div>
         <div
+          (click)="deleteSecret(secret)"
           class="delete-secret"
           title="Delete"
-          (click)="deleteSecret(secret)"
         >
           <my-secret-trash-icon class="icon"></my-secret-trash-icon>
         </div>

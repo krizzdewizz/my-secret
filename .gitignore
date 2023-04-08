@@ -4,3 +4,4 @@ out
 .idea
 .angular
 coverage
+/krizz-secret.json

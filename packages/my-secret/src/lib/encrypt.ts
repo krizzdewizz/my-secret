@@ -1,5 +1,5 @@
-import { create_sjcl } from './sjcl/sjcl';
-import { error, ok, Result } from './core/core';
+import { create_sjcl } from "./sjcl/sjcl";
+import { error, ok, Result } from "./core/core";
 
 type Encryptor = {
   encrypt: (password: string, data: string) => string;
@@ -16,7 +16,7 @@ type Encrypted = {
 const IMPL = (() => {
   const impl = create_sjcl() as unknown as Encryptor;
   if (!impl) {
-    throw new Error('no sjcl implementation found');
+    throw new Error("no sjcl implementation found");
   }
   return impl;
 })();
@@ -34,7 +34,7 @@ export const encrypt = (password: string, data: string): Result<string> => {
   }
 
   const json: Encrypted = JSON.parse(_encrypt(IMPL, password, data));
-  const joined = [json.iv, json.salt, json.ct].join(':');
+  const joined = [json.iv, json.salt, json.ct].join(":");
 
   return ok(joined);
 };
@@ -47,15 +47,15 @@ export const decrypt = (
   data: string | undefined
 ): Result<string> => {
   if (!data) {
-    return error('error while decrypting');
+    return error("error while decrypting");
   }
 
   try {
-    const [iv, salt, ct] = data.split(':');
+    const [iv, salt, ct] = data.split(":");
     const enc: Encrypted = { iv, salt, ct };
     const decrypted = _decrypt(IMPL, password, JSON.stringify(enc));
     if (!decrypted) {
-      return error('error while decrypting');
+      return error("error while decrypting");
     }
     return ok(decrypted);
   } catch (e: any) {

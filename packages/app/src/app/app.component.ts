@@ -4,16 +4,16 @@ import {
   ElementRef,
   OnInit,
   ViewChild
-} from '@angular/core';
+} from "@angular/core";
 import {
   AppState,
   AppStateInitial,
   AppStateOpen,
   SecretService,
   UploadAction
-} from './secret.service';
-import { Result, Secret } from '@my-secret/my-secret';
-import orderBy from 'lodash.orderby';
+} from "./secret.service";
+import { Result, Secret } from "@my-secret/my-secret";
+import orderBy from "lodash.orderby";
 
 type SecretView = Secret & {
   visible: boolean;
@@ -38,16 +38,28 @@ const secretViewToSecret = ({
 const secretToSecretView = (secret: Secret): SecretView => ({
   ...secret,
   visible: false,
-  stars: '*',
+  stars: "*",
   original: secret
 });
 
 @Component({
-  selector: 'my-secret-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "my-secret-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit, AfterViewInit {
+  @ViewChild("passwordEl") passwordEl!: ElementRef;
+  password = "";
+  error = "";
+  secrets: SecretView[] = [];
+  filteredSecrets: SecretView[] = [];
+  changed = false;
+  uploadAction: UploadAction = "upload";
+
+  constructor(private secretService: SecretService) {}
+
+  private _searchTerm = "";
+
   get searchTerm(): string {
     return this._searchTerm;
   }
@@ -57,19 +69,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.updateFilteredSecrets();
   }
 
-  @ViewChild('passwordEl') passwordEl!: ElementRef;
-
-  password = '';
-  error = '';
-
-  secrets: SecretView[] = [];
-  filteredSecrets: SecretView[] = [];
-  private _searchTerm = '';
-  changed = false;
-  uploadAction: UploadAction = 'upload';
-
   get initialTitle(): string {
-    return this.initialPassword ? 'Set password' : 'No secret stored yet';
+    return this.initialPassword ? "Set password" : "No secret stored yet";
   }
 
   get initialPassword(): boolean {
@@ -77,19 +78,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     return !!state.initial;
   }
 
-  constructor(private secretService: SecretService) {}
-
   get state(): AppState {
     return this.secretService.state;
   }
-
 
   ngOnInit(): void {
     this.secretService.init();
   }
 
   ngAfterViewInit(): void {
-    if (this.state.state === 'secretsPresent') {
+    if (this.state.state === "secretsPresent") {
       this.focusPassword();
     }
   }
@@ -123,47 +121,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private handleResult(result: Result<unknown>, onOk?: () => void): void {
-    if (result.outcome === 'error') {
-      this.error = result.error;
-    } else {
-      this.error = '';
-      onOk?.();
-    }
-  }
-
-  private focusPassword(): void {
-    setTimeout(() => {
-      const el: HTMLInputElement = this.passwordEl.nativeElement;
-      el.focus();
-    }, 200);
-  }
-
   unlock(): void {
     this.handleResult(this.secretService.unlock(this.password), () => {
       this.updateUi();
     });
-  }
-
-  private updateUi(): void {
-    this.secrets = (this.state as AppStateOpen).secret?.secrets.map(
-      secretToSecretView
-    ) || [];
-
-    this.updateFilteredSecrets();
-  }
-
-  private updateFilteredSecrets(): void {
-    const searchLower = this._searchTerm.toLowerCase();
-
-    this.filteredSecrets = orderBy(
-      this.secrets.filter(s =>
-        [s.name, s.user, s.info0, s.info0].some(
-          s => !s || s.includes(searchLower)
-        )
-      ),
-      [s => s.new, s => s.name]
-    );
   }
 
   onChanged(): void {
@@ -195,27 +156,62 @@ export class AppComponent implements OnInit, AfterViewInit {
     );
   }
 
-  private focusNameInput(): void {
-    setTimeout(() => {
-      const inp = document.querySelector(
-        '.secret-container input'
-      ) as HTMLInputElement;
-      inp.focus();
-    }, 100);
-  }
-
-  reset():void {
-    if (!confirm('Delete my-secret data from local storage?')) {
+  reset(): void {
+    if (!confirm("Delete my-secret data from local storage?")) {
       return;
     }
 
-    this.password = '';
-    this.handleResult(this.secretService.reset(), () =>
-      this.updateUi()
-    );
+    this.password = "";
+    this.handleResult(this.secretService.reset(), () => this.updateUi());
   }
 
   open(): void {
     this.handleResult(this.secretService.open(this.password));
+  }
+
+  private handleResult(result: Result<unknown>, onOk?: () => void): void {
+    if (result.outcome === "error") {
+      this.error = result.error;
+    } else {
+      this.error = "";
+      onOk?.();
+    }
+  }
+
+  private focusPassword(): void {
+    setTimeout(() => {
+      const el: HTMLInputElement = this.passwordEl.nativeElement;
+      el.focus();
+    }, 200);
+  }
+
+  private updateUi(): void {
+    this.secrets =
+      (this.state as AppStateOpen).secret?.secrets.map(secretToSecretView) ||
+      [];
+
+    this.updateFilteredSecrets();
+  }
+
+  private updateFilteredSecrets(): void {
+    const searchLower = this._searchTerm.toLowerCase();
+
+    this.filteredSecrets = orderBy(
+      this.secrets.filter(s =>
+        [s.name, s.user, s.info0, s.info0].some(
+          s => !s || s.includes(searchLower)
+        )
+      ),
+      [s => s.new, s => s.name]
+    );
+  }
+
+  private focusNameInput(): void {
+    setTimeout(() => {
+      const inp = document.querySelector(
+        ".secret-container input"
+      ) as HTMLInputElement;
+      inp.focus();
+    }, 100);
   }
 }
