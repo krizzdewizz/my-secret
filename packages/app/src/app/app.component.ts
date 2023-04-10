@@ -124,6 +124,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   unlock(): void {
     this.handleResult(this.secretService.unlock(this.password), () => {
       this.updateUi();
+      this.focusSearchField();
     });
   }
 
@@ -198,20 +199,35 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.filteredSecrets = orderBy(
       this.secrets.filter(s =>
-        [s.name, s.user, s.info0, s.info0].some(
-          s => !s || s.includes(searchLower)
-        )
+        [
+          s.name,
+          s.user,
+          s.info0,
+          s.info0,
+          (s.tags || []).reduce((acc, it) => acc + it, "")
+        ].some(s => s && s.includes(searchLower))
       ),
-      [s => s.new, s => s.name]
+      [s => s.new, s => s.name.toLowerCase()]
     );
   }
 
   private focusNameInput(): void {
-    setTimeout(() => {
-      const inp = document.querySelector(
-        ".secret-container input"
-      ) as HTMLInputElement;
-      inp.focus();
-    }, 100);
+    setTimeout(
+      () =>
+        (
+          document.querySelector(".secret-container input") as HTMLInputElement
+        ).focus(),
+      100
+    );
+  }
+
+  private focusSearchField() {
+    setTimeout(
+      () =>
+        (
+          document.querySelector(".toolbar .search") as HTMLInputElement
+        )?.focus(),
+      100
+    );
   }
 }
