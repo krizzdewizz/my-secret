@@ -122,7 +122,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   unlock(): void {
-    this.handleResult(this.secretService.unlock(this.password), () => {
+    const unlockRes = this.secretService.unlock(this.password);
+    if (unlockRes.outcome === 'error') {
+      this.password = '';
+    }
+    this.handleResult(unlockRes, () => {
       this.updateUi();
       this.focusSearchField();
     });
