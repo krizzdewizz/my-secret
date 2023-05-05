@@ -14,6 +14,7 @@ import {
 } from "./secret.service";
 import { Result, Secret } from "@my-secret/my-secret";
 import orderBy from "lodash.orderby";
+import copy from "copy-to-clipboard";
 
 type SecretView = Secret & {
   visible: boolean;
@@ -50,6 +51,7 @@ const secretToSecretView = (secret: Secret): SecretView => ({
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("passwordEl") passwordEl!: ElementRef;
   password = "";
+  passwordVisible = false;
   error = "";
   secrets: SecretView[] = [];
   filteredSecrets: SecretView[] = [];
@@ -123,8 +125,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   unlock(): void {
     const unlockRes = this.secretService.unlock(this.password);
-    if (unlockRes.outcome === 'error') {
-      this.password = '';
+    if (unlockRes.outcome === "error") {
+      this.password = "";
     }
     this.handleResult(unlockRes, () => {
       this.updateUi();
@@ -233,5 +235,12 @@ export class AppComponent implements OnInit, AfterViewInit {
         )?.focus(),
       100
     );
+  }
+
+  copy(password: string): void {
+    copy(password, {
+      debug: true,
+      message: "Press #{key} to copy"
+    });
   }
 }

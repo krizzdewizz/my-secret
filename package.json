@@ -5,7 +5,7 @@
   "main": "packages/my-secret/src/cli/cli.ts",
   "scripts": {
     "serve": "nx serve --project=app",
-    "build": "nx run-many --target=build",
+    "build": "nx run-many --target=build --base-href=/my-secret/",
     "build:all": "npm run format && npm run test && npm run lint && npm run build",
     "lint": "nx run-many --target=lint",
     "format": "prettier packages/** --write",
@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~15.2.0",
     "@angular/router": "~15.2.0",
     "@nrwl/angular": "^15.8.8",
+    "copy-to-clipboard": "^3.3.3",
     "lodash.orderby": "^4.6.0",
     "meow": "^11.0.0",
     "rxjs": "~7.8.0",

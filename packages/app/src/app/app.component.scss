@@ -11,6 +11,12 @@
   padding-right: 50px;
 }
 
+.initial-password {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .password {
   display: flex;
   flex-direction: column;
@@ -106,6 +112,7 @@ my-secret-banner {
 .secret-password {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .state-container {
@@ -116,7 +123,6 @@ my-secret-banner {
 .icon {
   border: none;
   cursor: pointer;
-  opacity: 0.3;
 
   &:hover {
     opacity: initial;
@@ -125,7 +131,7 @@ my-secret-banner {
 }
 
 .changed {
-  opacity: initial;
+  opacity: initial !important;
   color: $alert-h;
 }
 
@@ -139,7 +145,7 @@ my-secret-banner {
 
 my-secret-eye-icon {
   position: relative;
-  top: -2px;
+  top: -4px;
 }
 
 .delete-secret {
@@ -168,4 +174,14 @@ my-secret-eye-icon {
 .reset-icon {
   margin-top: 10px;
   display: block;
+}
+
+.my-secret-eye-icon {
+  &.active svg {
+    color: $accent;
+  }
+}
+
+.action {
+  opacity: 0.3;
 }

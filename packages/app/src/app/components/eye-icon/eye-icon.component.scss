@@ -1,0 +1,17 @@
+@import "variables";
+
+svg {
+  position: relative;
+  top: 6px;
+  opacity: 0.3;
+
+  &:hover {
+    opacity: initial;
+    color: #ff5f57;
+  }
+
+  &.active {
+    color: red;
+    opacity: 1;
+  }
+}

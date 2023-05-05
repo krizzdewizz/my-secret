@@ -11,6 +11,7 @@ import { TrashIconComponent } from "./components/trash-icon/trash-icon.component
 import { PlusIconComponent } from "./components/plus-icon/plus-icon.component";
 import { SaveIconComponent } from "./components/save-icon/save-icon.component";
 import { ExportIconComponent } from "./components/export-icon/export-icon.component";
+import { CopyIconComponent } from "./components/copy-icon/copy-icon.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ExportIconComponent } from "./components/export-icon/export-icon.compon
     TrashIconComponent,
     PlusIconComponent,
     SaveIconComponent,
-    ExportIconComponent
+    ExportIconComponent,
+    CopyIconComponent
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],

@@ -7,24 +7,24 @@
       placeholder="Search..."
       type="search"
     />
-    <button (click)="addSecret()" class="icon" title="Add">
+    <button (click)="addSecret()" class="icon action" title="Add">
       <my-secret-plus-icon></my-secret-plus-icon>
     </button>
     <button
       (click)="saveSecrets()"
       [class.changed]="changed"
-      class="icon"
+      class="icon action"
       title="Save"
     >
       <my-secret-save-icon></my-secret-save-icon>
     </button>
-    <button (click)="downloadSecrets()" class="icon" title="Download">
+    <button (click)="downloadSecrets()" class="icon action" title="Download">
       <my-secret-download-icon></my-secret-download-icon>
     </button>
-    <button (click)="exportSecrets()" class="icon" title="Export">
+    <button (click)="exportSecrets()" class="icon action" title="Export">
       <my-secret-export-icon></my-secret-export-icon>
     </button>
-    <button (click)="reset()" class="icon" title="Delete whole Secret">
+    <button (click)="reset()" class="icon action" title="Delete whole Secret">
       <my-secret-trash-icon></my-secret-trash-icon>
     </button>
   </div>
@@ -35,14 +35,20 @@
     <span class="initial-title">{{ initialTitle }}</span>
 
     <div *ngIf="initialPassword; else newOrUpload" class="password">
-      <div class="input-container">
+      <div class="input-container initial-password">
         <input
           #passwordEl
           (keydown.enter)="createSecret()"
           [(ngModel)]="password"
           autocomplete="off"
-          type="password"
+          [type]="passwordVisible ? 'text' : 'password'"
         />
+
+        <my-secret-eye-icon
+          (click)="passwordVisible = !passwordVisible"
+          class="icon"
+          [active]="passwordVisible"
+        ></my-secret-eye-icon>
       </div>
 
       <button (click)="createSecret()" [disabled]="!password">Save</button>
@@ -93,7 +99,7 @@
       <div class="reset-icon">
         <my-secret-trash-icon
           (click)="reset()"
-          class="icon"
+          class="icon action"
           title="Delete whole Secret"
         ></my-secret-trash-icon>
       </div>
@@ -119,7 +125,13 @@
           <my-secret-eye-icon
             (click)="secret.visible = !secret.visible"
             class="icon"
+            [active]="secret.visible"
           ></my-secret-eye-icon>
+          <my-secret-copy-icon
+            title="Copy to clipboard"
+            (click)="copy(secret.password)"
+            class="icon action"
+          ></my-secret-copy-icon>
           <input
             (ngModelChange)="onChanged()"
             [(ngModel)]="secret.password"
@@ -146,7 +158,7 @@
           class="delete-secret"
           title="Delete"
         >
-          <my-secret-trash-icon class="icon"></my-secret-trash-icon>
+          <my-secret-trash-icon class="icon action"></my-secret-trash-icon>
         </div>
       </ng-container>
     </div>
