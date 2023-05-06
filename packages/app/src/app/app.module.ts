@@ -1,17 +1,17 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from "./app.component";
-import { FormsModule } from "@angular/forms";
-import { BannerComponent } from "./components/banner/banner.component";
-import { UploadIconComponent } from "./components/upload-icon/upload-icon.component";
-import { DownloadIconComponent } from "./components/download-icon/download-icon.component";
-import { EyeIconComponent } from "./components/eye-icon/eye-icon.component";
-import { TrashIconComponent } from "./components/trash-icon/trash-icon.component";
-import { PlusIconComponent } from "./components/plus-icon/plus-icon.component";
-import { SaveIconComponent } from "./components/save-icon/save-icon.component";
-import { ExportIconComponent } from "./components/export-icon/export-icon.component";
-import { CopyIconComponent } from "./components/copy-icon/copy-icon.component";
+import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+import { BannerComponent } from './components/banner/banner.component';
+import { UploadIconComponent } from './components/upload-icon/upload-icon.component';
+import { DownloadIconComponent } from './components/download-icon/download-icon.component';
+import { EyeIconComponent } from './components/eye-icon/eye-icon.component';
+import { TrashIconComponent } from './components/trash-icon/trash-icon.component';
+import { PlusIconComponent } from './components/plus-icon/plus-icon.component';
+import { SaveIconComponent } from './components/save-icon/save-icon.component';
+import { ExportIconComponent } from './components/export-icon/export-icon.component';
+import { CopyIconComponent } from './components/copy-icon/copy-icon.component';
 
 @NgModule({
   declarations: [

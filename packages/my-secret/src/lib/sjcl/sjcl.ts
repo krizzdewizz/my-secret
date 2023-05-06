@@ -6,7 +6,7 @@
 export const create_sjcl = () => {
   // BEGIN PASTE LIBRARY
 
-  "use strict";
+  'use strict';
   var sjcl = {
     cipher: {},
     hash: {},
@@ -17,25 +17,25 @@ export const create_sjcl = () => {
     exception: {
       corrupt: function (a) {
         this.toString = function () {
-          return "CORRUPT: " + this.message;
+          return 'CORRUPT: ' + this.message;
         };
         this.message = a;
       },
       invalid: function (a) {
         this.toString = function () {
-          return "INVALID: " + this.message;
+          return 'INVALID: ' + this.message;
         };
         this.message = a;
       },
       bug: function (a) {
         this.toString = function () {
-          return "BUG: " + this.message;
+          return 'BUG: ' + this.message;
         };
         this.message = a;
       },
       notReady: function (a) {
         this.toString = function () {
-          return "NOT READY: " + this.message;
+          return 'NOT READY: ' + this.message;
         };
         this.message = a;
       }
@@ -52,7 +52,7 @@ export const create_sjcl = () => {
     b = a.length;
     var h = 1;
     if (4 !== b && 6 !== b && 8 !== b)
-      throw new sjcl.exception.invalid("invalid aes key size");
+      throw new sjcl.exception.invalid('invalid aes key size');
     this.b = [(d = a.slice(0)), (e = [])];
     for (a = b; a < 4 * b + 28; a++) {
       c = d[a - 1];
@@ -125,7 +125,7 @@ export const create_sjcl = () => {
 
   function t(a, b, c) {
     if (4 !== b.length)
-      throw new sjcl.exception.invalid("invalid aes block size");
+      throw new sjcl.exception.invalid('invalid aes block size');
     var d = a.b[c],
       e = b[0] ^ d[0],
       f = b[c ? 3 : 1] ^ d[1],
@@ -270,7 +270,7 @@ export const create_sjcl = () => {
   };
   sjcl.codec.utf8String = {
     fromBits: function (a) {
-      var b = "",
+      var b = '',
         c = sjcl.bitArray.bitLength(a),
         d,
         e;
@@ -293,7 +293,7 @@ export const create_sjcl = () => {
   };
   sjcl.codec.hex = {
     fromBits: function (a) {
-      var b = "",
+      var b = '',
         c;
       for (c = 0; c < a.length; c++)
         b += ((a[c] | 0) + 0xf00000000000).toString(16).substr(4);
@@ -303,24 +303,24 @@ export const create_sjcl = () => {
       var b,
         c = [],
         d;
-      a = a.replace(/\s|0x/g, "");
+      a = a.replace(/\s|0x/g, '');
       d = a.length;
-      a = a + "00000000";
+      a = a + '00000000';
       for (b = 0; b < a.length; b += 8)
         c.push(parseInt(a.substr(b, 8), 16) ^ 0);
       return sjcl.bitArray.clamp(c, 4 * d);
     }
   };
   sjcl.codec.base32 = {
-    B: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
-    X: "0123456789ABCDEFGHIJKLMNOPQRSTUV",
+    B: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+    X: '0123456789ABCDEFGHIJKLMNOPQRSTUV',
     BITS: 32,
     BASE: 5,
     REMAINING: 27,
     fromBits: function (a, b, c) {
       var d = sjcl.codec.base32.BASE,
         e = sjcl.codec.base32.REMAINING,
-        f = "",
+        f = '',
         g = 0,
         h = sjcl.codec.base32.B,
         k = 0,
@@ -331,11 +331,11 @@ export const create_sjcl = () => {
           g < d
             ? ((k = a[c] << (d - g)), (g += e), c++)
             : ((k <<= d), (g -= d));
-      for (; f.length & 7 && !b; ) f += "=";
+      for (; f.length & 7 && !b; ) f += '=';
       return f;
     },
     toBits: function (a, b) {
-      a = a.replace(/\s|=/g, "").toUpperCase();
+      a = a.replace(/\s|=/g, '').toUpperCase();
       var c = sjcl.codec.base32.BITS,
         d = sjcl.codec.base32.BASE,
         e = sjcl.codec.base32.REMAINING,
@@ -345,8 +345,8 @@ export const create_sjcl = () => {
         k = sjcl.codec.base32.B,
         l = 0,
         n,
-        m = "base32";
-      b && ((k = sjcl.codec.base32.X), (m = "base32hex"));
+        m = 'base32';
+      b && ((k = sjcl.codec.base32.X), (m = 'base32hex'));
       for (g = 0; g < a.length; g++) {
         n = k.indexOf(a.charAt(g));
         if (0 > n) {
@@ -354,7 +354,7 @@ export const create_sjcl = () => {
             try {
               return sjcl.codec.base32hex.toBits(a);
             } catch (p) {}
-          throw new sjcl.exception.invalid("this isn't " + m + "!");
+          throw new sjcl.exception.invalid("this isn't " + m + '!');
         }
         h > e
           ? ((h -= e), f.push(l ^ (n >>> h)), (l = n << (c - h)))
@@ -373,31 +373,31 @@ export const create_sjcl = () => {
     }
   };
   sjcl.codec.base64 = {
-    B: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+    B: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
     fromBits: function (a, b, c) {
-      var d = "",
+      var d = '',
         e = 0,
         f = sjcl.codec.base64.B,
         g = 0,
         h = sjcl.bitArray.bitLength(a);
-      c && (f = f.substr(0, 62) + "-_");
+      c && (f = f.substr(0, 62) + '-_');
       for (c = 0; 6 * d.length < h; )
         (d += f.charAt((g ^ (a[c] >>> e)) >>> 26)),
           6 > e
             ? ((g = a[c] << (6 - e)), (e += 26), c++)
             : ((g <<= 6), (e -= 6));
-      for (; d.length & 3 && !b; ) d += "=";
+      for (; d.length & 3 && !b; ) d += '=';
       return d;
     },
     toBits: function (a, b) {
-      a = a.replace(/\s|=/g, "");
+      a = a.replace(/\s|=/g, '');
       var c = [],
         d,
         e = 0,
         f = sjcl.codec.base64.B,
         g = 0,
         h;
-      b && (f = f.substr(0, 62) + "-_");
+      b && (f = f.substr(0, 62) + '-_');
       for (d = 0; d < a.length; d++) {
         h = f.indexOf(a.charAt(d));
         if (0 > h) throw new sjcl.exception.invalid("this isn't base64!");
@@ -435,14 +435,14 @@ export const create_sjcl = () => {
       return this;
     },
     update: function (a) {
-      "string" === typeof a && (a = sjcl.codec.utf8String.toBits(a));
+      'string' === typeof a && (a = sjcl.codec.utf8String.toBits(a));
       var b,
         c = (this.A = sjcl.bitArray.concat(this.A, a));
       b = this.l;
       a = this.l = b + sjcl.bitArray.bitLength(a);
       if (0x1fffffffffffff < a)
-        throw new sjcl.exception.invalid("Cannot hash more than 2^53 - 1 bits");
-      if ("undefined" !== typeof Uint32Array) {
+        throw new sjcl.exception.invalid('Cannot hash more than 2^53 - 1 bits');
+      if ('undefined' !== typeof Uint32Array) {
         var d = new Uint32Array(c),
           e = 0;
         for (b = 512 + b - ((512 + b) & 0x1ff); b <= a; b += 512)
@@ -550,7 +550,7 @@ export const create_sjcl = () => {
   }
 
   sjcl.mode.ccm = {
-    name: "ccm",
+    name: 'ccm',
     G: [],
     listenProgress: function (a) {
       sjcl.mode.ccm.G.push(a);
@@ -573,7 +573,7 @@ export const create_sjcl = () => {
       e = e || 64;
       d = d || [];
       if (7 > k)
-        throw new sjcl.exception.invalid("ccm: iv must be at least 7 bytes");
+        throw new sjcl.exception.invalid('ccm: iv must be at least 7 bytes');
       for (f = 2; 4 > f && l >>> (8 * f); f++);
       f < 15 - k && (f = 15 - k);
       c = h.clamp(c, 8 * (15 - f));
@@ -591,7 +591,7 @@ export const create_sjcl = () => {
         l = f.bitSlice(b, h - e),
         h = (h - e) / 8;
       if (7 > g)
-        throw new sjcl.exception.invalid("ccm: iv must be at least 7 bytes");
+        throw new sjcl.exception.invalid('ccm: iv must be at least 7 bytes');
       for (b = 2; 4 > b && h >>> (8 * b); b++);
       b < 15 - g && (b = 15 - g);
       c = f.clamp(c, 8 * (15 - b));
@@ -628,7 +628,7 @@ export const create_sjcl = () => {
         h = g.i;
       e /= 8;
       if (e % 2 || 4 > e || 16 < e)
-        throw new sjcl.exception.invalid("ccm: invalid tag length");
+        throw new sjcl.exception.invalid('ccm: invalid tag length');
       if (0xffffffff < d.length || 0xffffffff < b.length)
         throw new sjcl.exception.bug("ccm: can't deal with 4GiB or more data");
       c = sjcl.mode.ccm.na(a, d, c, e, g.bitLength(b) / 8, f);
@@ -662,10 +662,10 @@ export const create_sjcl = () => {
     }
   };
   sjcl.mode.ocb2 = {
-    name: "ocb2",
+    name: 'ocb2',
     encrypt: function (a, b, c, d, e, f) {
       if (128 !== sjcl.bitArray.bitLength(c))
-        throw new sjcl.exception.invalid("ocb iv must be 128 bits");
+        throw new sjcl.exception.invalid('ocb iv must be 128 bits');
       var g,
         h = sjcl.mode.ocb2.S,
         k = sjcl.bitArray,
@@ -692,7 +692,7 @@ export const create_sjcl = () => {
     },
     decrypt: function (a, b, c, d, e, f) {
       if (128 !== sjcl.bitArray.bitLength(c))
-        throw new sjcl.exception.invalid("ocb iv must be 128 bits");
+        throw new sjcl.exception.invalid('ocb iv must be 128 bits');
       e = e || 64;
       var g = sjcl.mode.ocb2.S,
         h = sjcl.bitArray,
@@ -745,7 +745,7 @@ export const create_sjcl = () => {
     }
   };
   sjcl.mode.gcm = {
-    name: "gcm",
+    name: 'gcm',
     encrypt: function (a, b, c, d, e) {
       var f = b.slice(0);
       b = sjcl.bitArray;
@@ -868,7 +868,7 @@ export const create_sjcl = () => {
   ) {
     if (this.aa)
       throw new sjcl.exception.invalid(
-        "encrypt on already updated hmac called!"
+        'encrypt on already updated hmac called!'
       );
     this.update(a);
     return this.digest(a);
@@ -890,9 +890,9 @@ export const create_sjcl = () => {
   sjcl.misc.pbkdf2 = function (a, b, c, d, e) {
     c = c || 1e4;
     if (0 > d || 0 > c)
-      throw new sjcl.exception.invalid("invalid params to pbkdf2");
-    "string" === typeof a && (a = sjcl.codec.utf8String.toBits(a));
-    "string" === typeof b && (b = sjcl.codec.utf8String.toBits(b));
+      throw new sjcl.exception.invalid('invalid params to pbkdf2');
+    'string' === typeof a && (a = sjcl.codec.utf8String.toBits(a));
+    'string' === typeof b && (b = sjcl.codec.utf8String.toBits(b));
     e = e || sjcl.misc.hmac;
     a = new e(a);
     var f,
@@ -979,16 +979,16 @@ export const create_sjcl = () => {
     setDefaultParanoia: function (a, b) {
       if (
         0 === a &&
-        "Setting paranoia=0 will ruin your security; use it only for testing" !==
+        'Setting paranoia=0 will ruin your security; use it only for testing' !==
           b
       )
         throw new sjcl.exception.invalid(
-          "Setting paranoia=0 will ruin your security; use it only for testing"
+          'Setting paranoia=0 will ruin your security; use it only for testing'
         );
       this.M = a;
     },
     addEntropy: function (a, b, c) {
-      c = c || "user";
+      c = c || 'user';
       var d,
         e,
         f = new Date().valueOf(),
@@ -1000,23 +1000,23 @@ export const create_sjcl = () => {
       void 0 === g && (g = this.H[c] = 0);
       this.H[c] = (this.H[c] + 1) % this.c.length;
       switch (typeof a) {
-        case "number":
+        case 'number':
           void 0 === b && (b = 1);
           this.c[g].update([d, this.N++, 1, b, f, 1, a | 0]);
           break;
-        case "object":
+        case 'object':
           c = Object.prototype.toString.call(a);
-          if ("[object Uint32Array]" === c) {
+          if ('[object Uint32Array]' === c) {
             e = [];
             for (c = 0; c < a.length; c++) e.push(a[c]);
             a = e;
           } else
             for (
-              "[object Array]" !== c && (k = 1), c = 0;
+              '[object Array]' !== c && (k = 1), c = 0;
               c < a.length && !k;
               c++
             )
-              "number" !== typeof a[c] && (k = 1);
+              'number' !== typeof a[c] && (k = 1);
           if (!k) {
             if (void 0 === b)
               for (c = b = 0; c < a.length; c++)
@@ -1024,7 +1024,7 @@ export const create_sjcl = () => {
             this.c[g].update([d, this.N++, 2, b, f, a.length].concat(a));
           }
           break;
-        case "string":
+        case 'string':
           void 0 === b && (b = a.length);
           this.c[g].update([d, this.N++, 3, b, f, a.length]);
           this.c[g].update(a);
@@ -1034,13 +1034,13 @@ export const create_sjcl = () => {
       }
       if (k)
         throw new sjcl.exception.bug(
-          "random: addEntropy only supports number, array of numbers or string"
+          'random: addEntropy only supports number, array of numbers or string'
         );
       this.m[g] += b;
       this.f += b;
       h === this.u &&
-        (this.isReady() !== this.u && A("seeded", Math.max(this.o, this.f)),
-        A("progress", this.getProgress()));
+        (this.isReady() !== this.u && A('seeded', Math.max(this.o, this.f)),
+        A('progress', this.getProgress()));
     },
     isReady: function (a) {
       a = this.T[void 0 !== a ? a : this.M];
@@ -1066,19 +1066,19 @@ export const create_sjcl = () => {
           touchCollector: B(this, this.qa)
         };
         if (window.addEventListener)
-          window.addEventListener("load", this.a.loadTimeCollector, !1),
-            window.addEventListener("mousemove", this.a.mouseCollector, !1),
-            window.addEventListener("keypress", this.a.keyboardCollector, !1),
+          window.addEventListener('load', this.a.loadTimeCollector, !1),
+            window.addEventListener('mousemove', this.a.mouseCollector, !1),
+            window.addEventListener('keypress', this.a.keyboardCollector, !1),
             window.addEventListener(
-              "devicemotion",
+              'devicemotion',
               this.a.accelerometerCollector,
               !1
             ),
-            window.addEventListener("touchmove", this.a.touchCollector, !1);
+            window.addEventListener('touchmove', this.a.touchCollector, !1);
         else if (document.attachEvent)
-          document.attachEvent("onload", this.a.loadTimeCollector),
-            document.attachEvent("onmousemove", this.a.mouseCollector),
-            document.attachEvent("keypress", this.a.keyboardCollector);
+          document.attachEvent('onload', this.a.loadTimeCollector),
+            document.attachEvent('onmousemove', this.a.mouseCollector),
+            document.attachEvent('keypress', this.a.keyboardCollector);
         else throw new sjcl.exception.bug("can't attach event");
         this.D = !0;
       }
@@ -1086,23 +1086,23 @@ export const create_sjcl = () => {
     stopCollectors: function () {
       this.D &&
         (window.removeEventListener
-          ? (window.removeEventListener("load", this.a.loadTimeCollector, !1),
-            window.removeEventListener("mousemove", this.a.mouseCollector, !1),
+          ? (window.removeEventListener('load', this.a.loadTimeCollector, !1),
+            window.removeEventListener('mousemove', this.a.mouseCollector, !1),
             window.removeEventListener(
-              "keypress",
+              'keypress',
               this.a.keyboardCollector,
               !1
             ),
             window.removeEventListener(
-              "devicemotion",
+              'devicemotion',
               this.a.accelerometerCollector,
               !1
             ),
-            window.removeEventListener("touchmove", this.a.touchCollector, !1))
+            window.removeEventListener('touchmove', this.a.touchCollector, !1))
           : document.detachEvent &&
-            (document.detachEvent("onload", this.a.loadTimeCollector),
-            document.detachEvent("onmousemove", this.a.mouseCollector),
-            document.detachEvent("keypress", this.a.keyboardCollector)),
+            (document.detachEvent('onload', this.a.loadTimeCollector),
+            document.detachEvent('onmousemove', this.a.mouseCollector),
+            document.detachEvent('keypress', this.a.keyboardCollector)),
         (this.D = !1));
     },
     addEventListener: function (a, b) {
@@ -1127,12 +1127,12 @@ export const create_sjcl = () => {
       } catch (d) {
         c = b = 0;
       }
-      0 != b && 0 != c && this.addEntropy([b, c], 2, "mouse");
+      0 != b && 0 != c && this.addEntropy([b, c], 2, 'mouse');
       C(this, 0);
     },
     qa: function (a) {
       a = a.touches[0] || a.changedTouches[0];
-      this.addEntropy([a.pageX || a.clientX, a.pageY || a.clientY], 1, "touch");
+      this.addEntropy([a.pageX || a.clientX, a.pageY || a.clientY], 1, 'touch');
       C(this, 0);
     },
     ma: function () {
@@ -1145,9 +1145,9 @@ export const create_sjcl = () => {
         a.accelerationIncludingGravity.z;
       if (window.orientation) {
         var b = window.orientation;
-        "number" === typeof b && this.addEntropy(b, 1, "accelerometer");
+        'number' === typeof b && this.addEntropy(b, 1, 'accelerometer');
       }
-      a && this.addEntropy(a, 2, "accelerometer");
+      a && this.addEntropy(a, 2, 'accelerometer');
       C(this, 0);
     }
   };
@@ -1161,11 +1161,11 @@ export const create_sjcl = () => {
   }
 
   function C(a, b) {
-    "undefined" !== typeof window &&
+    'undefined' !== typeof window &&
     window.performance &&
-    "function" === typeof window.performance.now
-      ? a.addEntropy(window.performance.now(), b, "loadtime")
-      : a.addEntropy(new Date().valueOf(), b, "loadtime");
+    'function' === typeof window.performance.now
+      ? a.addEntropy(window.performance.now(), b, 'loadtime')
+      : a.addEntropy(new Date().valueOf(), b, 'loadtime');
   }
 
   function y(a) {
@@ -1187,7 +1187,7 @@ export const create_sjcl = () => {
   sjcl.random = new sjcl.prng(6);
   a: try {
     var D, E, F, G;
-    if ((G = "undefined" !== typeof module && module.exports)) {
+    if ((G = 'undefined' !== typeof module && module.exports)) {
       var H;
       try {
         // H = require('crypto');
@@ -1203,8 +1203,8 @@ export const create_sjcl = () => {
         (D = new Uint32Array(new Uint8Array(D).buffer)),
         sjcl.random.addEntropy(D, 1024, "crypto['randomBytes']");
     else if (
-      "undefined" !== typeof window &&
-      "undefined" !== typeof Uint32Array
+      'undefined' !== typeof window &&
+      'undefined' !== typeof Uint32Array
     ) {
       F = new Uint32Array(32);
       if (window.crypto && window.crypto.getRandomValues)
@@ -1215,9 +1215,9 @@ export const create_sjcl = () => {
       sjcl.random.addEntropy(F, 1024, "crypto['getRandomValues']");
     }
   } catch (a) {
-    "undefined" !== typeof window &&
+    'undefined' !== typeof window &&
       window.console &&
-      (console.log("There was an error collecting entropy from the browser:"),
+      (console.log('There was an error collecting entropy from the browser:'),
       console.log(a));
   }
   sjcl.json = {
@@ -1226,9 +1226,9 @@ export const create_sjcl = () => {
       iter: 1e4,
       ks: 128,
       ts: 64,
-      mode: "ccm",
-      adata: "",
-      cipher: "aes"
+      mode: 'ccm',
+      adata: '',
+      cipher: 'aes'
     },
     ja: function (a, b, c, d) {
       c = c || {};
@@ -1238,32 +1238,32 @@ export const create_sjcl = () => {
         g;
       e.g(f, c);
       c = f.adata;
-      "string" === typeof f.salt && (f.salt = sjcl.codec.base64.toBits(f.salt));
-      "string" === typeof f.iv && (f.iv = sjcl.codec.base64.toBits(f.iv));
+      'string' === typeof f.salt && (f.salt = sjcl.codec.base64.toBits(f.salt));
+      'string' === typeof f.iv && (f.iv = sjcl.codec.base64.toBits(f.iv));
       if (
         !sjcl.mode[f.mode] ||
         !sjcl.cipher[f.cipher] ||
-        ("string" === typeof a && 100 >= f.iter) ||
+        ('string' === typeof a && 100 >= f.iter) ||
         (64 !== f.ts && 96 !== f.ts && 128 !== f.ts) ||
         (128 !== f.ks && 192 !== f.ks && 0x100 !== f.ks) ||
         2 > f.iv.length ||
         4 < f.iv.length
       )
-        throw new sjcl.exception.invalid("json encrypt: invalid parameters");
-      "string" === typeof a
+        throw new sjcl.exception.invalid('json encrypt: invalid parameters');
+      'string' === typeof a
         ? ((g = sjcl.misc.cachedPbkdf2(a, f)),
           (a = g.key.slice(0, f.ks / 32)),
           (f.salt = g.salt))
         : sjcl.ecc &&
           a instanceof sjcl.ecc.elGamal.publicKey &&
           ((g = a.kem()), (f.kemtag = g.tag), (a = g.key.slice(0, f.ks / 32)));
-      "string" === typeof b && (b = sjcl.codec.utf8String.toBits(b));
-      "string" === typeof c && (f.adata = c = sjcl.codec.utf8String.toBits(c));
+      'string' === typeof b && (b = sjcl.codec.utf8String.toBits(b));
+      'string' === typeof c && (f.adata = c = sjcl.codec.utf8String.toBits(c));
       g = new sjcl.cipher[f.cipher](a);
       e.g(d, f);
       d.key = a;
       f.ct =
-        "ccm" === f.mode &&
+        'ccm' === f.mode &&
         sjcl.arrayBuffer &&
         sjcl.arrayBuffer.ccm &&
         b instanceof ArrayBuffer
@@ -1283,30 +1283,30 @@ export const create_sjcl = () => {
       b = e.g(e.g(e.g({}, e.defaults), b), c, !0);
       var f, g;
       f = b.adata;
-      "string" === typeof b.salt && (b.salt = sjcl.codec.base64.toBits(b.salt));
-      "string" === typeof b.iv && (b.iv = sjcl.codec.base64.toBits(b.iv));
+      'string' === typeof b.salt && (b.salt = sjcl.codec.base64.toBits(b.salt));
+      'string' === typeof b.iv && (b.iv = sjcl.codec.base64.toBits(b.iv));
       if (
         !sjcl.mode[b.mode] ||
         !sjcl.cipher[b.cipher] ||
-        ("string" === typeof a && 100 >= b.iter) ||
+        ('string' === typeof a && 100 >= b.iter) ||
         (64 !== b.ts && 96 !== b.ts && 128 !== b.ts) ||
         (128 !== b.ks && 192 !== b.ks && 0x100 !== b.ks) ||
         !b.iv ||
         2 > b.iv.length ||
         4 < b.iv.length
       )
-        throw new sjcl.exception.invalid("json decrypt: invalid parameters");
-      "string" === typeof a
+        throw new sjcl.exception.invalid('json decrypt: invalid parameters');
+      'string' === typeof a
         ? ((g = sjcl.misc.cachedPbkdf2(a, b)),
           (a = g.key.slice(0, b.ks / 32)),
           (b.salt = g.salt))
         : sjcl.ecc &&
           a instanceof sjcl.ecc.elGamal.secretKey &&
           (a = a.unkem(sjcl.codec.base64.toBits(b.kemtag)).slice(0, b.ks / 32));
-      "string" === typeof f && (f = sjcl.codec.utf8String.toBits(f));
+      'string' === typeof f && (f = sjcl.codec.utf8String.toBits(f));
       g = new sjcl.cipher[b.cipher](a);
       f =
-        "ccm" === b.mode &&
+        'ccm' === b.mode &&
         sjcl.arrayBuffer &&
         sjcl.arrayBuffer.ccm &&
         b.ct instanceof ArrayBuffer
@@ -1322,38 +1322,38 @@ export const create_sjcl = () => {
     },
     encode: function (a) {
       var b,
-        c = "{",
-        d = "";
+        c = '{',
+        d = '';
       for (b in a)
         if (a.hasOwnProperty(b)) {
           if (!b.match(/^[a-z0-9]+$/i))
             throw new sjcl.exception.invalid(
-              "json encode: invalid property name"
+              'json encode: invalid property name'
             );
           c += d + '"' + b + '":';
-          d = ",";
+          d = ',';
           switch (typeof a[b]) {
-            case "number":
-            case "boolean":
+            case 'number':
+            case 'boolean':
               c += a[b];
               break;
-            case "string":
+            case 'string':
               c += '"' + escape(a[b]) + '"';
               break;
-            case "object":
+            case 'object':
               c += '"' + sjcl.codec.base64.fromBits(a[b], 0) + '"';
               break;
             default:
-              throw new sjcl.exception.bug("json encode: unsupported type");
+              throw new sjcl.exception.bug('json encode: unsupported type');
           }
         }
-      return c + "}";
+      return c + '}';
     },
     decode: function (a) {
-      a = a.replace(/\s/g, "");
+      a = a.replace(/\s/g, '');
       if (!a.match(/^\{.*\}$/))
         throw new sjcl.exception.invalid("json decode: this isn't json!");
-      a = a.replace(/^\{|\}$/g, "").split(/,/);
+      a = a.replace(/^\{|\}$/g, '').split(/,/);
       var b = {},
         c,
         d;
@@ -1370,7 +1370,7 @@ export const create_sjcl = () => {
           ? (b[d[2]] = d[2].match(/^(ct|adata|salt|iv)$/)
               ? sjcl.codec.base64.toBits(d[4])
               : unescape(d[4]))
-          : null != d[5] && (b[d[2]] = "true" === d[5]);
+          : null != d[5] && (b[d[2]] = 'true' === d[5]);
       }
       return b;
     },
@@ -1380,7 +1380,7 @@ export const create_sjcl = () => {
       for (var d in b)
         if (b.hasOwnProperty(d)) {
           if (c && void 0 !== a[d] && a[d] !== b[d])
-            throw new sjcl.exception.invalid("required parameter overridden");
+            throw new sjcl.exception.invalid('required parameter overridden');
           a[d] = b[d];
         }
       return a;
@@ -1418,7 +1418,7 @@ export const create_sjcl = () => {
     return { key: d[c].slice(0), salt: c.slice(0) };
   };
   // 'undefined' !== typeof module && module.exports && (module.exports = sjcl);
-  "function" === typeof define &&
+  'function' === typeof define &&
     define([], function () {
       return sjcl;
     });

@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: "my-secret-download-icon",
-  templateUrl: "./download-icon.component.html"
+  selector: 'my-secret-download-icon',
+  templateUrl: './download-icon.component.html'
 })
 export class DownloadIconComponent {}

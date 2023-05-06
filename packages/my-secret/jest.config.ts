@@ -1,10 +1,10 @@
 /* eslint-disable */
 export default {
-  displayName: "my-secret",
-  preset: "../../jest.preset.js",
+  displayName: 'my-secret',
+  preset: '../../jest.preset.js',
   transform: {
-    "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }]
+    '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }]
   },
-  moduleFileExtensions: ["ts", "js", "html"],
-  coverageDirectory: "../../coverage/packages/my-secret"
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  coverageDirectory: '../../coverage/packages/my-secret'
 };

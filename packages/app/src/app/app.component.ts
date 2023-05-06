@@ -4,17 +4,17 @@ import {
   ElementRef,
   OnInit,
   ViewChild
-} from "@angular/core";
+} from '@angular/core';
 import {
   AppState,
   AppStateInitial,
   AppStateOpen,
   SecretService,
   UploadAction
-} from "./secret.service";
-import { Result, Secret } from "@my-secret/my-secret";
-import orderBy from "lodash.orderby";
-import copy from "copy-to-clipboard";
+} from './secret.service';
+import { Result, Secret } from '@my-secret/my-secret';
+import orderBy from 'lodash.orderby';
+import copy from 'copy-to-clipboard';
 
 type SecretView = Secret & {
   visible: boolean;
@@ -39,28 +39,28 @@ const secretViewToSecret = ({
 const secretToSecretView = (secret: Secret): SecretView => ({
   ...secret,
   visible: false,
-  stars: "*",
+  stars: '*',
   original: secret
 });
 
 @Component({
-  selector: "my-secret-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"]
+  selector: 'my-secret-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild("passwordEl") passwordEl!: ElementRef;
-  password = "";
+  @ViewChild('passwordEl') passwordEl!: ElementRef;
+  password = '';
   passwordVisible = false;
-  error = "";
+  error = '';
   secrets: SecretView[] = [];
   filteredSecrets: SecretView[] = [];
   changed = false;
-  uploadAction: UploadAction = "upload";
+  uploadAction: UploadAction = 'upload';
 
   constructor(private secretService: SecretService) {}
 
-  private _searchTerm = "";
+  private _searchTerm = '';
 
   get searchTerm(): string {
     return this._searchTerm;
@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   get initialTitle(): string {
-    return this.initialPassword ? "Set password" : "No secret stored yet";
+    return this.initialPassword ? 'Set password' : 'No secret stored yet';
   }
 
   get initialPassword(): boolean {
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.state.state === "secretsPresent") {
+    if (this.state.state === 'secretsPresent') {
       this.focusPassword();
     }
   }
@@ -125,8 +125,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   unlock(): void {
     const unlockRes = this.secretService.unlock(this.password);
-    if (unlockRes.outcome === "error") {
-      this.password = "";
+    if (unlockRes.outcome === 'error') {
+      this.password = '';
     }
     this.handleResult(unlockRes, () => {
       this.updateUi();
@@ -164,11 +164,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   reset(): void {
-    if (!confirm("Delete my-secret data from local storage?")) {
+    if (!confirm('Delete my-secret data from local storage?')) {
       return;
     }
 
-    this.password = "";
+    this.password = '';
     this.handleResult(this.secretService.reset(), () => this.updateUi());
   }
 
@@ -177,10 +177,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private handleResult(result: Result<unknown>, onOk?: () => void): void {
-    if (result.outcome === "error") {
+    if (result.outcome === 'error') {
       this.error = result.error;
     } else {
-      this.error = "";
+      this.error = '';
       onOk?.();
     }
   }
@@ -210,7 +210,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           s.user,
           s.info0,
           s.info0,
-          (s.tags || []).reduce((acc, it) => acc + it, "")
+          (s.tags || []).reduce((acc, it) => acc + it, '')
         ].some(s => s && s.includes(searchLower))
       ),
       [s => s.new, s => s.name.toLowerCase()]
@@ -221,7 +221,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     setTimeout(
       () =>
         (
-          document.querySelector(".secret-container input") as HTMLInputElement
+          document.querySelector('.secret-container input') as HTMLInputElement
         ).focus(),
       100
     );
@@ -231,7 +231,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     setTimeout(
       () =>
         (
-          document.querySelector(".toolbar .search") as HTMLInputElement
+          document.querySelector('.toolbar .search') as HTMLInputElement
         )?.focus(),
       100
     );
@@ -240,7 +240,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   copy(password: string): void {
     copy(password, {
       debug: true,
-      message: "Press #{key} to copy"
+      message: 'Press #{key} to copy'
     });
   }
 }
