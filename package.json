@@ -65,5 +65,8 @@
     "@nx/linter": "16.1.1",
     "@nx/eslint-plugin": "16.1.1",
     "@nx/jest": "16.1.1"
+  },
+  "engines": {
+    "node": "16"
   }
 }
