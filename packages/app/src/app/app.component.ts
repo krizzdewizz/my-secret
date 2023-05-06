@@ -3,14 +3,14 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   AppState,
   AppStateInitial,
   AppStateOpen,
   SecretService,
-  UploadAction
+  UploadAction,
 } from './secret.service';
 import { Result, Secret } from '@my-secret/my-secret';
 import orderBy from 'lodash.orderby';
@@ -27,26 +27,26 @@ const secretViewToSecret = ({
   user,
   password,
   info0,
-  info1
+  info1,
 }: SecretView): Secret => ({
   name,
   user,
   password,
   info0,
-  info1
+  info1,
 });
 
 const secretToSecretView = (secret: Secret): SecretView => ({
   ...secret,
   visible: false,
   stars: '*',
-  original: secret
+  original: secret,
 });
 
 @Component({
   selector: 'my-secret-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('passwordEl') passwordEl!: ElementRef;
@@ -143,7 +143,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.handleResult(
       this.secretService.saveSecrets(this.password, {
-        secrets: this.secrets.map(secretViewToSecret)
+        secrets: this.secrets.map(secretViewToSecret),
       })
     );
   }
@@ -174,6 +174,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   open(): void {
     this.handleResult(this.secretService.open(this.password));
+  }
+
+  copy(password: string): void {
+    copy(password);
   }
 
   private handleResult(result: Result<unknown>, onOk?: () => void): void {
@@ -210,7 +214,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           s.user,
           s.info0,
           s.info0,
-          (s.tags || []).reduce((acc, it) => acc + it, '')
+          (s.tags || []).reduce((acc, it) => acc + it, ''),
         ].some(s => s && s.includes(searchLower))
       ),
       [s => s.new, s => s.name.toLowerCase()]
@@ -235,12 +239,5 @@ export class AppComponent implements OnInit, AfterViewInit {
         )?.focus(),
       100
     );
-  }
-
-  copy(password: string): void {
-    copy(password, {
-      debug: true,
-      message: 'Press #{key} to copy'
-    });
   }
 }

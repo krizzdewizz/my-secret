@@ -38,8 +38,8 @@ export const create_sjcl = () => {
           return 'NOT READY: ' + this.message;
         };
         this.message = a;
-      }
-    }
+      },
+    },
   };
   sjcl.cipher.aes = function (a) {
     this.s[0][0][0] || this.O();
@@ -86,7 +86,7 @@ export const create_sjcl = () => {
     },
     s: [
       [[], [], [], [], []],
-      [[], [], [], [], []]
+      [[], [], [], [], []],
     ],
     O: function () {
       var a = this.s[0],
@@ -120,7 +120,7 @@ export const create_sjcl = () => {
           (a[e][f] = n = (n << 24) ^ (n >>> 8)),
             (b[e][m] = p = (p << 24) ^ (p >>> 8));
       for (e = 0; 5 > e; e++) (a[e] = a[e].slice(0)), (b[e] = b[e].slice(0));
-    }
+    },
   };
 
   function t(a, b, c) {
@@ -266,7 +266,7 @@ export const create_sjcl = () => {
             ((c & 0xff00) << 8) |
             (c << 24));
       return a;
-    }
+    },
   };
   sjcl.codec.utf8String = {
     fromBits: function (a) {
@@ -289,7 +289,7 @@ export const create_sjcl = () => {
         (d = (d << 8) | a.charCodeAt(c)), 3 === (c & 3) && (b.push(d), (d = 0));
       c & 3 && b.push(sjcl.bitArray.partial(8 * (c & 3), d));
       return b;
-    }
+    },
   };
   sjcl.codec.hex = {
     fromBits: function (a) {
@@ -309,7 +309,7 @@ export const create_sjcl = () => {
       for (b = 0; b < a.length; b += 8)
         c.push(parseInt(a.substr(b, 8), 16) ^ 0);
       return sjcl.bitArray.clamp(c, 4 * d);
-    }
+    },
   };
   sjcl.codec.base32 = {
     B: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
@@ -362,7 +362,7 @@ export const create_sjcl = () => {
       }
       h & 56 && f.push(sjcl.bitArray.partial(h & 56, l, 1));
       return f;
-    }
+    },
   };
   sjcl.codec.base32hex = {
     fromBits: function (a, b) {
@@ -370,7 +370,7 @@ export const create_sjcl = () => {
     },
     toBits: function (a) {
       return sjcl.codec.base32.toBits(a, 1);
-    }
+    },
   };
   sjcl.codec.base64 = {
     B: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
@@ -407,7 +407,7 @@ export const create_sjcl = () => {
       }
       e & 56 && c.push(sjcl.bitArray.partial(e & 56, g, 1));
       return c;
-    }
+    },
   };
   sjcl.codec.base64url = {
     fromBits: function (a) {
@@ -415,7 +415,7 @@ export const create_sjcl = () => {
     },
     toBits: function (a) {
       return sjcl.codec.base64.toBits(a, 1);
-    }
+    },
   };
   sjcl.hash.sha256 = function (a) {
     this.b[0] || this.O();
@@ -483,7 +483,7 @@ export const create_sjcl = () => {
           (this.b[b] = a(Math.pow(c, 1 / 3))),
           b++);
       }
-    }
+    },
   };
 
   function u(a, b) {
@@ -659,7 +659,7 @@ export const create_sjcl = () => {
           (b[g + 2] ^= e[2]),
           (b[g + 3] ^= e[3]);
       return { tag: d, data: h.clamp(b, l) };
-    }
+    },
   };
   sjcl.mode.ocb2 = {
     name: 'ocb2',
@@ -740,9 +740,9 @@ export const create_sjcl = () => {
         (a[0] << 1) ^ (a[1] >>> 31),
         (a[1] << 1) ^ (a[2] >>> 31),
         (a[2] << 1) ^ (a[3] >>> 31),
-        (a[3] << 1) ^ (135 * (a[0] >>> 31))
+        (a[3] << 1) ^ (135 * (a[0] >>> 31)),
       ];
-    }
+    },
   };
   sjcl.mode.gcm = {
     name: 'gcm',
@@ -820,7 +820,7 @@ export const create_sjcl = () => {
             0,
             0,
             Math.floor(h / 0x100000000),
-            h & 0xffffffff
+            h & 0xffffffff,
           ])));
       h = sjcl.mode.gcm.j(g, [0, 0, 0, 0], d);
       n = e.slice(0);
@@ -839,7 +839,7 @@ export const create_sjcl = () => {
         Math.floor(r / 0x100000000),
         r & 0xffffffff,
         Math.floor(p / 0x100000000),
-        p & 0xffffffff
+        p & 0xffffffff,
       ];
       d = sjcl.mode.gcm.j(g, d, a);
       k = b.encrypt(e);
@@ -848,7 +848,7 @@ export const create_sjcl = () => {
       d[2] ^= k[2];
       d[3] ^= k[3];
       return { tag: q.bitSlice(d, 0, f), data: c };
-    }
+    },
   };
   sjcl.misc.hmac = function (a, b) {
     this.W = b = b || sjcl.hash.sha256;
@@ -1063,7 +1063,7 @@ export const create_sjcl = () => {
           mouseCollector: B(this, this.oa),
           keyboardCollector: B(this, this.la),
           accelerometerCollector: B(this, this.ea),
-          touchCollector: B(this, this.qa)
+          touchCollector: B(this, this.qa),
         };
         if (window.addEventListener)
           window.addEventListener('load', this.a.loadTimeCollector, !1),
@@ -1149,7 +1149,7 @@ export const create_sjcl = () => {
       }
       a && this.addEntropy(a, 2, 'accelerometer');
       C(this, 0);
-    }
+    },
   };
 
   function A(a, b) {
@@ -1228,7 +1228,7 @@ export const create_sjcl = () => {
       ts: 64,
       mode: 'ccm',
       adata: '',
-      cipher: 'aes'
+      cipher: 'aes',
     },
     ja: function (a, b, c, d) {
       c = c || {};
@@ -1396,7 +1396,7 @@ export const create_sjcl = () => {
         d;
       for (d = 0; d < b.length; d++) void 0 !== a[b[d]] && (c[b[d]] = a[b[d]]);
       return c;
-    }
+    },
   };
   sjcl.encrypt = sjcl.json.encrypt;
   sjcl.decrypt = sjcl.json.decrypt;
@@ -1411,7 +1411,7 @@ export const create_sjcl = () => {
       firstSalt:
         b.salt && b.salt.length
           ? b.salt.slice(0)
-          : sjcl.random.randomWords(2, 0)
+          : sjcl.random.randomWords(2, 0),
     };
     c = void 0 === b.salt ? d.firstSalt : b.salt;
     d[c] = d[c] || sjcl.misc.pbkdf2(a, c, b.iter);

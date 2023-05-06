@@ -6,7 +6,7 @@ import {
   MySecret,
   ok,
   Result,
-  Secret
+  Secret,
 } from '@my-secret/my-secret';
 
 const STORAGE_KEY = 'my-secret';
@@ -36,7 +36,7 @@ export type AppStateSecretsPresent = {
 export type AppState = AppStateInitial | AppStateSecretsPresent | AppStateOpen;
 
 const INITIAL_STATE: AppState = {
-  state: 'initial'
+  state: 'initial',
 };
 
 export type UploadAction = 'upload' | 'import';
@@ -54,16 +54,16 @@ const newSecret = (): Secret => {
     password: generatePassword(),
     info0: '',
     info1: '',
-    new: true
+    new: true,
   };
 };
 
 const DEFAULT: MySecret = {
-  secrets: [newSecret()]
+  secrets: [newSecret()],
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SecretService {
   state: AppState = INITIAL_STATE;
@@ -75,7 +75,7 @@ export class SecretService {
 
     this.state = {
       state: 'initial',
-      initial: { type: 'new' }
+      initial: { type: 'new' },
     };
 
     return ok(undefined);
@@ -130,7 +130,7 @@ export class SecretService {
       localStorage.setItem(STORAGE_KEY, initial.encryptedData);
       this.state = {
         state: 'open',
-        secret: JSON.parse(decryptRes.value)
+        secret: JSON.parse(decryptRes.value),
       };
     } else {
       const secret = initial.type === 'new' ? DEFAULT : initial.secret;
@@ -143,7 +143,7 @@ export class SecretService {
       localStorage.setItem(STORAGE_KEY, encryptedRes.value);
       this.state = {
         state: 'open',
-        secret
+        secret,
       };
     }
 
@@ -162,7 +162,7 @@ export class SecretService {
 
     this.state = {
       state: 'open',
-      secret: JSON.parse(decryptRes.value)
+      secret: JSON.parse(decryptRes.value),
     };
 
     return ok(undefined);
@@ -234,7 +234,7 @@ export class SecretService {
   private uploadData(encryptedData: string): Result<void> {
     this.state = {
       state: 'initial',
-      initial: { type: 'encryptedData', encryptedData }
+      initial: { type: 'encryptedData', encryptedData },
     };
     return ok(undefined);
   }
@@ -248,7 +248,7 @@ export class SecretService {
 
       this.state = {
         state: 'initial',
-        initial: { type: 'importedData', secret }
+        initial: { type: 'importedData', secret },
       };
       return ok(undefined);
     } catch (err: unknown) {

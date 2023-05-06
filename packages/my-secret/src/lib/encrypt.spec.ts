@@ -3,7 +3,7 @@ import { decrypt, encrypt } from './encrypt';
 describe('encrypt', () => {
   const testData = [
     ['pw', 'secret'],
-    ['a', 'a']
+    ['a', 'a'],
   ];
 
   describe('should succeed', () => {
@@ -37,7 +37,7 @@ describe('encrypt', () => {
       [null, undefined],
       [undefined, null],
       ['pw', ''],
-      ['', 'a']
+      ['', 'a'],
     ];
 
     testData.forEach(([pw, secret]) => {

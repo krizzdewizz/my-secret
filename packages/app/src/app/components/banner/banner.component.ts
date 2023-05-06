@@ -16,7 +16,7 @@ const toLines = (text: string): string[][] => {
 @Component({
   selector: 'my-secret-banner',
   templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
+  styleUrls: ['./banner.component.scss'],
 })
 export class BannerComponent {
   readonly lines = toLines(TITLE);

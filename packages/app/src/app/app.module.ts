@@ -24,10 +24,10 @@ import { CopyIconComponent } from './components/icon/copy-icon/copy-icon.compone
     PlusIconComponent,
     SaveIconComponent,
     ExportIconComponent,
-    CopyIconComponent
+    CopyIconComponent,
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

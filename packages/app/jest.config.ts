@@ -4,5 +4,5 @@ export default {
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../coverage/packages/app',
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)']
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
 };
