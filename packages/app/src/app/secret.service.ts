@@ -8,6 +8,7 @@ import {
   Result,
   Secret,
 } from '@my-secret/my-secret';
+import { generatePassword } from './generate-password';
 
 const STORAGE_KEY = 'my-secret';
 
@@ -40,12 +41,6 @@ const INITIAL_STATE: AppState = {
 };
 
 export type UploadAction = 'upload' | 'import';
-
-const generatePassword = () =>
-  encrypt(
-    String(Date.now() + Math.random()),
-    String(Math.random())
-  ).value.slice(0, 20);
 
 const newSecret = (): Secret => {
   return {
