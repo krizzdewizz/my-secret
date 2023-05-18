@@ -16,6 +16,7 @@ import { Result, Secret } from '@my-secret/my-secret';
 import orderBy from 'lodash.orderby';
 import copy from 'copy-to-clipboard';
 import IdleTracker from 'idle-tracker';
+import { getPassword, setPassword } from './password';
 
 type SecretView = Secret & {
   visible: boolean;
@@ -54,7 +55,15 @@ const SAVE_INTERVAL = 3_000;
 })
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('passwordEl') passwordEl!: ElementRef;
-  password = '';
+
+  get password(): string {
+    return getPassword();
+  }
+
+  set password(value: string) {
+    setPassword(value);
+  }
+
   passwordVisible = false;
   error = '';
   secrets: SecretView[] = [];
@@ -133,15 +142,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   createSecret(): void {
-    this.handleResult(this.secretService.create(this.password), () => {
+    this.handleResult(this.secretService.create(getPassword()), () => {
       this.updateUi();
     });
   }
 
   unlock(): void {
-    const unlockRes = this.secretService.unlock(this.password);
+    const unlockRes = this.secretService.unlock(getPassword());
     if (unlockRes.outcome === 'error') {
-      this.password = '';
+      setPassword('');
     }
     this.handleResult(unlockRes, () => {
       this.updateUi();
@@ -158,7 +167,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const saveRes = this.secretService.saveSecrets(this.password, {
+    const saveRes = this.secretService.saveSecrets(getPassword(), {
       secrets: this.secrets.map(secretViewToSecret),
     });
 
@@ -189,12 +198,12 @@ export class AppComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.password = '';
+    setPassword('');
     this.handleResult(this.secretService.reset(), () => this.updateUi());
   }
 
   open(): void {
-    this.handleResult(this.secretService.open(this.password));
+    this.handleResult(this.secretService.open(getPassword()));
   }
 
   copy(password: string, secret: Secret): void {
@@ -268,7 +277,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     const lockRes = this.secretService.lock();
 
     if (lockRes.outcome === 'ok') {
-      this.password = '';
+      setPassword('');
     }
 
     this.handleResult(lockRes, () => {

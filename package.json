@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "nx serve --project=app",
     "build": "nx run-many --target=build --base-href=/my-secret/",
-    "build:all": "npm run format && npm run test && npm run lint && npm run build",
+    "build:all": "npm run format && npm run test && npm run lint && npm run build && node tools/obfuscate",
     "lint": "nx run-many --target=lint",
     "format": "prettier packages/** --write",
     "test": "rimraf coverage && nx run-many --target=test --codeCoverage"
@@ -58,6 +58,8 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "glob": "^10.2.5",
+    "javascript-obfuscator": "^4.0.2",
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
     "nx": "16.1.1",
