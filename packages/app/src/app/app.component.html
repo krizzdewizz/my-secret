@@ -127,11 +127,18 @@
             class="icon"
             [active]="secret.visible"
           ></my-secret-eye-icon>
-          <my-secret-copy-icon
-            title="Copy to clipboard"
-            (click)="copy(secret.password)"
+          <my-secret-check-icon
+            *ngIf="secretCopied === secret; else copyIcon"
+            title="Copied"
             class="icon action"
-          ></my-secret-copy-icon>
+          ></my-secret-check-icon>
+          <ng-template #copyIcon>
+            <my-secret-copy-icon
+              title="Copy to clipboard"
+              (click)="copy(secret.password, secret)"
+              class="icon action"
+            ></my-secret-copy-icon>
+          </ng-template>
           <input
             (ngModelChange)="onChanged()"
             [(ngModel)]="secret.password"

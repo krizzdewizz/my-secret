@@ -163,6 +163,13 @@ export class SecretService {
     return ok(undefined);
   }
 
+  lock(): Result<void> {
+    if (this.state.state === 'open') {
+      this.init();
+    }
+    return ok(undefined);
+  }
+
   exportSecrets(): Result<void> {
     if (this.state.state !== 'open') {
       return error("invalid state. expected 'open'");

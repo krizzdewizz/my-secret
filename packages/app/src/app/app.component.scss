@@ -185,3 +185,12 @@ my-secret-eye-icon {
 .action {
   opacity: 0.3;
 }
+
+my-secret-check-icon.action {
+  color: greenyellow;
+  opacity: 1;
+
+  &:hover {
+    color: greenyellow;
+  }
+}

@@ -15,6 +15,7 @@ import {
 import { Result, Secret } from '@my-secret/my-secret';
 import orderBy from 'lodash.orderby';
 import copy from 'copy-to-clipboard';
+import IdleTracker from 'idle-tracker';
 
 type SecretView = Secret & {
   visible: boolean;
@@ -43,6 +44,9 @@ const secretToSecretView = (secret: Secret): SecretView => ({
   original: secret,
 });
 
+const IDLE_TIMEOUT = 1_000 * 60 * 5;
+const SAVE_INTERVAL = 3_000;
+
 @Component({
   selector: 'my-secret-root',
   templateUrl: './app.component.html',
@@ -57,8 +61,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   filteredSecrets: SecretView[] = [];
   changed = false;
   uploadAction: UploadAction = 'upload';
+  secretCopied?: Secret = undefined;
 
-  constructor(private secretService: SecretService) {}
+  private readonly idleTracker = new IdleTracker({
+    timeout: IDLE_TIMEOUT,
+    onIdleCallback: () => this.onIdle(),
+  });
+
+  constructor(private secretService: SecretService) {
+    setInterval(() => this.saveSecrets(), SAVE_INTERVAL);
+  }
 
   private _searchTerm = '';
 
@@ -86,11 +98,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.secretService.init();
+
+    // never stopped
+    this.idleTracker.start();
   }
 
   ngAfterViewInit(): void {
     if (this.state.state === 'secretsPresent') {
-      this.focusPassword();
+      this.focusPasswordInput();
     }
   }
 
@@ -107,13 +122,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     const text = await file.text();
     this.handleResult(
       this.secretService.upload(text, { action: this.uploadAction }),
-      () => this.focusPassword()
+      () => this.focusPasswordInput()
     );
   }
 
   createNew(): void {
     this.handleResult(this.secretService.createNew(), () =>
-      this.focusPassword()
+      this.focusPasswordInput()
     );
   }
 
@@ -130,7 +145,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     this.handleResult(unlockRes, () => {
       this.updateUi();
-      this.focusSearchField();
+      this.focusSearchInput();
     });
   }
 
@@ -139,13 +154,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   saveSecrets(): void {
-    this.changed = false;
+    if (this.state.state !== 'open' || !this.changed) {
+      return;
+    }
 
-    this.handleResult(
-      this.secretService.saveSecrets(this.password, {
-        secrets: this.secrets.map(secretViewToSecret),
-      })
-    );
+    const saveRes = this.secretService.saveSecrets(this.password, {
+      secrets: this.secrets.map(secretViewToSecret),
+    });
+
+    if (saveRes.outcome === 'ok') {
+      this.changed = false;
+    }
+
+    this.handleResult(saveRes);
   }
 
   addSecret(): void {
@@ -176,8 +197,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.handleResult(this.secretService.open(this.password));
   }
 
-  copy(password: string): void {
+  copy(password: string, secret: Secret): void {
     copy(password);
+    this.secretCopied = secret;
+    setTimeout(() => (this.secretCopied = undefined), 2_000);
   }
 
   private handleResult(result: Result<unknown>, onOk?: () => void): void {
@@ -189,7 +212,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private focusPassword(): void {
+  private focusPasswordInput(): void {
     setTimeout(() => {
       const el: HTMLInputElement = this.passwordEl.nativeElement;
       el.focus();
@@ -222,16 +245,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private focusNameInput(): void {
-    setTimeout(
-      () =>
-        (
-          document.querySelector('.secret-container input') as HTMLInputElement
-        ).focus(),
-      100
-    );
+    setTimeout(() => {
+      const nameInp = document.querySelector(
+        '.secret-container input'
+      ) as HTMLInputElement;
+      nameInp.focus();
+      nameInp.setSelectionRange(0, 10_000);
+    }, 200);
   }
 
-  private focusSearchField() {
+  private focusSearchInput(): void {
     setTimeout(
       () =>
         (
@@ -239,5 +262,18 @@ export class AppComponent implements OnInit, AfterViewInit {
         )?.focus(),
       100
     );
+  }
+
+  private onIdle(): void {
+    const lockRes = this.secretService.lock();
+
+    if (lockRes.outcome === 'ok') {
+      this.password = '';
+    }
+
+    this.handleResult(lockRes, () => {
+      this.updateUi();
+      this.focusPasswordInput();
+    });
   }
 }

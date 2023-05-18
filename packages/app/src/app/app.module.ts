@@ -12,6 +12,7 @@ import { PlusIconComponent } from './components/icon/plus-icon/plus-icon.compone
 import { SaveIconComponent } from './components/icon/save-icon/save-icon.component';
 import { ExportIconComponent } from './components/icon/export-icon/export-icon.component';
 import { CopyIconComponent } from './components/icon/copy-icon/copy-icon.component';
+import { CheckIconComponent } from './components/icon/check-icon/check-icon.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CopyIconComponent } from './components/icon/copy-icon/copy-icon.compone
     SaveIconComponent,
     ExportIconComponent,
     CopyIconComponent,
+    CheckIconComponent,
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],
